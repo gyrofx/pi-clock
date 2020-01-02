@@ -1,0 +1,17 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "[typescript]": {
+    "editor.codeActionsOnSave": {
+      // "source.organizeImports": true
+    }
+  },
+  "html.format.wrapAttributes": "force-aligned",
+  "[html]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2
+  },
+  "files.exclude": {
+    "dist": true
+  }
+}

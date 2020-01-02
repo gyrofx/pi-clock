@@ -1,0 +1,10 @@
+<div class="d-flex flex-row">
+  <button mat-mini-fab (click)="volumeUpDown.emit(volume - 1)">
+    <mat-icon>volume_down</mat-icon>
+  </button>
+  <mat-slider class="ml-2 mr-2" min="1" max="100" step="1" [value]="volume"></mat-slider>
+  <!-- <div>{{ volume }}</div> -->
+  <button mat-mini-fab (click)="volumeUpDown.emit(volume + 2)">
+    <mat-icon>volume_up</mat-icon>
+  </button>
+</div>

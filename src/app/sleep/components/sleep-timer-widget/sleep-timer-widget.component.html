@@ -1,0 +1,4 @@
+<span class="sleep-timer-widget" *ngIf="sleepTimer"
+  ><i class="mdi mdi-sleep"></i> in <span>{{ duration | amDuration: 'seconds' }}</span></span
+>
+<span *ngIf="!sleepTimer">&nbsp;</span>

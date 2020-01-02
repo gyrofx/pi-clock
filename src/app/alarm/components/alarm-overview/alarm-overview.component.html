@@ -1,0 +1,21 @@
+<div class="container mt-3">
+  <div class="row mb-2" *ngFor="let alarm of alarmList$ | async">
+    <div class="col-1">
+      <mat-slide-toggle class="mt-4" color="accent" [checked]="alarm.enabled" (change)="onClick($event, alarm)">
+      </mat-slide-toggle>
+    </div>
+    <div class="col-11">
+      <a [routerLink]="[alarm.index]" routerLinkActive="router-link-active">
+        <div class="d-flex flex-row">
+          <div class="mr-3" [ngClass]="{ disabled: !alarm.enabled }">
+            {{ alarm.hour | number: '2.0-2' }}:{{ alarm.minute | number: '2.0-2' }}
+          </div>
+          <div class="details d-flex flex-column mt-2">
+            <div class="mr-2">Runs on {{ daysOfWeek(alarm) }}</div>
+            <div><i class="mdi mdi-18px mdi-playlist-music"></i> {{ alarm.playlist?.name }}</div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
