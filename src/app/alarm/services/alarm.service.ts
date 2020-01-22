@@ -59,7 +59,7 @@ export class AlarmService {
       enabled: false,
       hour: 7,
       minute: 0,
-      daysOfWeek: [true, true, true, true, true, true, true],
+      daysOfWeek: [false, false, false, false, false, false, false],
       duration: 30,
       playlist: null,
       volume: 10,
@@ -77,37 +77,45 @@ export class AlarmService {
     const nextAlarams: NextAlarm[] = _.sortBy(
       alarmList
         .filter(alarm => alarm.enabled)
+        .filter(alarm => alarm.daysOfWeek.some(day => day))
         .map(alarm => {
-          return { alarm, date: this.getNextAlarmDate(now, alarm) };
+          return {
+            alarm,
+            date: _.head(this.getNextAlarmDates(now, alarm)),
+          } as NextAlarm;
         }),
-      item => item.nextAlarmDate
+      item => item.date
     );
-    if (nextAlarams.length) {
-      const nextAlarm = nextAlarams[0];
-      this.nextAlarmSubject.next(nextAlarm);
-    } else {
-      this.nextAlarmSubject.next(null);
-    }
+    const nextAlarm = _.head(nextAlarams);
+    this.nextAlarmSubject.next(nextAlarm ? nextAlarm : null);
   }
 
-  private getNextAlarmDate(now: Date, alarm: Alarm): Date {
+  private getNextAlarmDates(now: Date, alarm: Alarm): Date[] {
     const dayOfWeek = now.getDay();
-    const dayOfWeekFromToday = [
-      ...alarm.daysOfWeek.slice(dayOfWeek),
-      ...alarm.daysOfWeek.slice(0, dayOfWeek > 0 ? dayOfWeek : 0),
-    ];
-    const alarmLaterToday = now.getHours() * 60 + now.getMinutes() < alarm.hour * 60 + alarm.minute;
 
-    const daysInTheFuture = dayOfWeekFromToday.findIndex(
-      (value, index) => value && (alarmLaterToday || (!alarmLaterToday && index > 0))
+    // Iterate through all week days and calculate the alarm date for that day (if enaled)
+    const nextAlarmDates = _.sortBy(
+      alarm.daysOfWeek
+        .map((enable, index) => {
+          if (enable) {
+            const alarmDate = moment(now);
+            alarmDate.hours(alarm.hour);
+            alarmDate.minutes(alarm.minute);
+            alarmDate.seconds(0);
+            alarmDate.milliseconds(0);
+            alarmDate.add(index - dayOfWeek, 'days');
+            if (alarmDate.toDate() < now) {
+              alarmDate.add(1, 'week');
+            }
+            return alarmDate.toDate();
+          }
+
+          return null;
+        })
+        .filter(item => item)
     );
-    const nextAlarmDate = moment().add(daysInTheFuture >= 0 ? daysInTheFuture : 0, 'days');
 
-    nextAlarmDate.hours(alarm.hour);
-    nextAlarmDate.minutes(alarm.minute);
-    nextAlarmDate.seconds(0);
-    nextAlarmDate.milliseconds(0);
-    const ii = nextAlarmDate.toDate();
-    return nextAlarmDate.toDate();
+    console.log('nextAlarmDates', nextAlarmDates);
+    return nextAlarmDates;
   }
 }
