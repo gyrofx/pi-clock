@@ -35,6 +35,11 @@ export class SleepService {
     }, timeout);
   }
 
+  stopSleepTimer() {
+    this.clearCurrentTimeout();
+    this.sleepTimerSubject.next(null);
+  }
+
   private clearCurrentTimeout() {
     if (this.timeoutHandle) {
       clearTimeout(this.timeoutHandle);
