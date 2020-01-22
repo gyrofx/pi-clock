@@ -10,9 +10,14 @@
           <div class="mr-3" [ngClass]="{ disabled: !alarm.enabled }">
             {{ alarm.hour | number: '2.0-2' }}:{{ alarm.minute | number: '2.0-2' }}
           </div>
-          <div class="details d-flex flex-column mt-2">
-            <div class="mr-2">Runs on {{ daysOfWeek(alarm) }}</div>
-            <div><i class="mdi mdi-18px mdi-playlist-music"></i> {{ alarm.playlist?.name }}</div>
+          <div class="details d-flex flex-column mt-2" [ngClass]="{ 'text-muted': !alarm.enabled }">
+            <div *ngIf="hasSelectedDays(alarm)" class="mr-2">Runs on {{ daysOfWeek(alarm) }}</div>
+            <div *ngIf="!hasSelectedDays(alarm)" class="mr-2">No selected days. Never runs!</div>
+            <div [ngClass]="{ 'text-danger': alarm.enabled && !alarm.playlist }">
+              <i class="mdi mdi-18px mdi-playlist-music"></i>
+              <span *ngIf="alarm.playlist">{{ alarm.playlist?.name }}</span>
+              <span *ngIf="!alarm.playlist">No playlist selected</span>
+            </div>
           </div>
         </div>
       </a>

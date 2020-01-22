@@ -88,7 +88,7 @@ export class AlaramFormComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   private formToValue() {
-    const { time, playlist, ...rest } = this.form.value;
+    const { time, playlist, enabled, ...rest } = this.form.value;
     const playlistObject = _.find(this.playlists, { uri: playlist });
     const [hour, minute] = time.split(':');
     const daysOfWeek = [
@@ -101,12 +101,15 @@ export class AlaramFormComponent implements OnInit, OnChanges, OnDestroy {
       !!this.form.value.saturday,
     ];
 
+    const hasDays = daysOfWeek.some(day => day);
+
     return {
       ...this.alarm,
       hour: +hour,
       minute: +minute,
       playlist: playlistObject,
       daysOfWeek,
+      enabled: hasDays ? enabled : false,
       ...rest,
     };
   }

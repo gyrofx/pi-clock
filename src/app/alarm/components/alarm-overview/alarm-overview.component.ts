@@ -45,4 +45,8 @@ export class AlarmOverviewComponent implements OnInit {
       .filter(day => day)
       .join(', ');
   }
+
+  hasSelectedDays(alarm: Alarm) {
+    return alarm.daysOfWeek.some(day => day);
+  }
 }
