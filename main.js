@@ -1,10 +1,18 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const url = require('url');
 const path = require('path');
+const log = require('electron-log');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
+
+console.debug = log.debug;
+console.log = log.info;
+console.warn = log.warn;
+console.error = log.error;
+
+console.log('Startup pi-clock');
 
 function createWindow() {
   // Create the browser window.
@@ -61,17 +69,6 @@ app.on('activate', () => {
   }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-function openModal() {
-  const { BrowserWindow } = require('electron');
-  let modal = new BrowserWindow({ parent: mainWindow, modal: true, show: false });
-  modal.loadURL('https://www.sitepoint.com');
-  modal.once('ready-to-show', () => {
-    modal.show();
-  });
-}
-
-ipcMain.on('openModal', (event, arg) => {
-  openModal();
+ipcMain.on(log.transports.ipc.eventId, function(_, message) {
+  log.transports.file(message);
 });
