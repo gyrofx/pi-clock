@@ -31,8 +31,8 @@ export class AlarmService {
 
     // we always want 5 alarm entites
     const missingAlarms = _.difference(
-      list.map(alarm => alarm.index),
-      [0, 1, 2, 3, 4]
+      [0, 1, 2, 3, 4],
+      list.map(alarm => alarm.index)
     );
     const alarmList = [...list, ...missingAlarms.map(index => this.createAlarm(index))];
 

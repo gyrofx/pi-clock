@@ -7,7 +7,8 @@ import { Alarm } from '../models';
 export class AlarmStorageService {
   load(): Alarm[] {
     try {
-      return JSON.parse(localStorage.getItem('alarms'));
+      const alarms = localStorage.getItem('alarms') || '[]';
+      return JSON.parse(alarms);
     } catch (e) {
       console.error('AlarmStorageService.load', 'JSON parse error :', e);
       return [];
