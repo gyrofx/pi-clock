@@ -13,9 +13,7 @@ export class WakeUpService {
     private alarmService: AlarmService,
     private sleepService: SleepService,
     private mopidyService: MopidyService
-  ) {
-    this.init();
-  }
+  ) {}
 
   init() {
     this.alarmService.nextAlarm.subscribe(nextAlarm => {

@@ -19,7 +19,12 @@ import { ScriptLoadService } from './utils/scripts/services/script-load.service'
 export class AppComponent implements OnInit {
   title = 'pi-clock';
 
-  constructor(private idle: Idle, private router: Router, private alarmService: AlarmService) {
+  constructor(
+    private idle: Idle,
+    private router: Router,
+    private alarmService: AlarmService,
+    private wakeupService: WakeUpService
+  ) {
     console.log('AppComponent');
 
     this.alarmService.load();
@@ -36,6 +41,8 @@ export class AppComponent implements OnInit {
     });
 
     this.idle.watch();
+
+    this.wakeupService.init();
   }
 
   ngOnInit(): void {
