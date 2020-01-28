@@ -1,27 +1,27 @@
 import { registerLocaleData } from '@angular/common';
 import localeDe from '@angular/common/locales/de';
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DEFAULT_INTERRUPTSOURCES, Idle } from '@ng-idle/core';
 import { MopidyService } from './mopidy/services/mopidy.service';
 import { WakeUpService } from './wake-up/services/wake-up.service';
 import { AlarmService } from './alarm/services';
+import { ElectronService } from './electron/services/electron.service';
+import { ScriptLoadService } from './utils/scripts/services/script-load.service';
+// const log = require('electron-log');
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'pi-clock';
 
-  constructor(
-    private idle: Idle,
-    private router: Router,
-    private mopidy: MopidyService,
-    private wakeUpService: WakeUpService,
-    private alarmService: AlarmService
-  ) {
+  constructor(private idle: Idle, private router: Router, private alarmService: AlarmService) {
+    console.log('AppComponent');
+
     this.alarmService.load();
 
     // sets an idle timeout of 5 seconds, for testing purposes.

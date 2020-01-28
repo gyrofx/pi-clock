@@ -11,14 +11,7 @@ import { MopidyService } from './services/mopidy.service';
 @NgModule({
   declarations: [VolumeWidgetContainerComponent, VolumeWidgetComponent],
   imports: [CommonModule, HttpClientModule, MatButtonModule, MatIconModule, MatSliderModule],
-  providers: [
-    MopidyService,
-    { provide: APP_INITIALIZER, useFactory: mopidyProviderFactory, deps: [MopidyService], multi: true },
-  ],
+
   exports: [VolumeWidgetContainerComponent],
 })
 export class MopidyModule {}
-
-export function mopidyProviderFactory(mopidy: MopidyService) {
-  return () => mopidy.init();
-}

@@ -31,6 +31,7 @@
     "@ng-idle/core": "^8.0.0-beta.4",
     "bootstrap": "^4.4.1",
     "electron-log": "^4.0.3",
+    "electron-store": "^5.1.0",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",
     "ngx-bootstrap": "^5.2.0",

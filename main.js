@@ -2,6 +2,7 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const url = require('url');
 const path = require('path');
 const log = require('electron-log');
+const Store = require('electron-store');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -13,6 +14,29 @@ console.warn = log.warn;
 console.error = log.error;
 
 console.log('Startup pi-clock');
+
+const storeSchema = {
+  mopidy: {
+    host: {
+      type: 'string',
+      format: 'url',
+      default: 'localhost',
+    },
+    port: {
+      type: 'number',
+      minimum: 1,
+      default: 6680,
+    },
+  },
+};
+
+const store = new Store({ storeSchema });
+console.log('main', 'Load config file from ', store.path);
+
+const mopidyHost = store.get('mopidy.host', 'localhost');
+const mopidyPort = store.get('mopidy.port', 6680);
+console.log('main', 'mopidy.host: ', mopidyHost);
+console.log('main', 'mopidy.port: ', mopidyPort);
 
 function createWindow() {
   // Create the browser window.
@@ -71,4 +95,14 @@ app.on('activate', () => {
 
 ipcMain.on(log.transports.ipc.eventId, function(_, message) {
   log.transports.file(message);
+});
+
+ipcMain.on('config', function(event) {
+  console.log('main', 'ipcMain.on: config');
+  event.sender.send('config-response', {
+    mopidy: {
+      host: mopidyHost,
+      port: mopidyPort,
+    },
+  });
 });
