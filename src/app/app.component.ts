@@ -31,13 +31,11 @@ export class AppComponent implements OnInit {
     idle.setInterrupts(DEFAULT_INTERRUPTSOURCES);
 
     idle.onIdleStart.subscribe(() => {
-      console.log('Go To Idle');
+      console.log('AppComponent', 'goto Idle');
       this.goToIdle();
     });
 
     this.idle.watch();
-
-    // this.mopidy.getState().subscribe(value => console.log('mopidy state', value));
   }
 
   ngOnInit(): void {

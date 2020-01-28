@@ -25,7 +25,7 @@ export class WakeUpService {
         const now = new Date();
 
         const timeout = nextAlarm.date.getTime() - now.getTime();
-        console.log('WakeUpService: setting up next alarm: ', nextAlarm, timeout / 1000);
+        console.log('WakeUpService', 'setting up next alarm: ', nextAlarm, timeout / 1000);
 
         this.timeoutHandle = setTimeout(() => {
           this.alarm(nextAlarm.alarm);
@@ -35,7 +35,7 @@ export class WakeUpService {
   }
 
   private alarm(alarm: Alarm) {
-    console.log('ALARM', alarm, Date());
+    console.log('WakeUpService', 'ALARM', alarm, Date());
     if (alarm.playlist) {
       this.mopidyService.volume = alarm.volume;
       this.mopidyService.playPlayList(alarm.playlist.uri);

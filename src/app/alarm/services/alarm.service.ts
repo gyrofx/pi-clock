@@ -86,7 +86,9 @@ export class AlarmService {
         }),
       item => item.date
     );
+    console.log('AlarmService', 'determineNextAlarm', 'nextAlarams', nextAlarams);
     const nextAlarm = _.head(nextAlarams);
+    console.log('AlarmService', 'determineNextAlarm', 'nextAlarm', nextAlarm);
     this.nextAlarmSubject.next(nextAlarm ? nextAlarm : null);
   }
 
@@ -115,7 +117,6 @@ export class AlarmService {
         .filter(item => item)
     );
 
-    console.log('nextAlarmDates', nextAlarmDates);
     return nextAlarmDates;
   }
 }
