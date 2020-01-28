@@ -11,9 +11,14 @@
     "e2e": "ng e2e",
     "electron": "electron .",
     "start:ng": "ng build --base-href ./  --watch",
-    "start:electron": "ng build --base-href ./  && electron .",
-    "pack-win": "rimraf ./pi-clock-win32-x64 &&  ng build --base-href ./ && electron-packager . --platform=win32 --arch=x64",
-    "pack-raspi": "rimraf ./pi-clock-linux-armv7l && ng build --base-href ./ && electron-packager . --platform=linux --arch=armv7l"
+    "build:ng": "ng build --base-href ./",
+    "build:ng:prod": "ng build --base-href ./ --prod",
+    "pack:win": "npm run build:ng && npm run electron:pack:win",
+    "pack:win:prod": "npm run build:ng:prod && npm run electron:pack:win",
+    "pack:raspi": "npm run build:ng && npm run electron:pack:raspi",
+    "pack:raspi:prod": "npm run build:ng:prod && npm run electron:pack:raspi",
+    "electron:pack:win": "electron-packager . --platform=win32 --arch=x64 --overwrite",
+    "electron:pack:raspi": "electron-packager . --platform=linux --arch=armv7l --overwrite"
   },
   "private": true,
   "dependencies": {
