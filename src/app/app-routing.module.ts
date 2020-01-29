@@ -6,11 +6,13 @@ import { PlayerModule } from './player/player.module';
 import { PlayerComponent } from './player/components/player/player.component';
 import { SleepModule } from './sleep/sleep.module';
 import { SleepComponent } from './sleep/components/sleep/sleep.component';
+import { WakeUpContainerComponent } from './wake-up/containers';
 
 const routes: Routes = [
   { path: 'idle', component: IdleScreenComponent },
   { path: 'player', component: PlayerComponent },
   { path: 'sleep', component: SleepComponent },
+  { path: 'wakeup', component: WakeUpContainerComponent },
   // { path: '**', component: IdleScreenComponent },
 ];
 
