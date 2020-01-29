@@ -3,17 +3,26 @@ import { AlarmService } from '../../alarm/services';
 import { SleepService } from '../../sleep/services/sleep.service';
 import { MopidyService } from '../../mopidy/services/mopidy.service';
 import { Alarm } from 'src/app/alarm/models';
+import { BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class WakeUpService {
+  private wakeUpSubject = new BehaviorSubject<Alarm>(null);
+
   private timeoutHandle;
   constructor(
     private alarmService: AlarmService,
     private sleepService: SleepService,
-    private mopidyService: MopidyService
+    private mopidyService: MopidyService,
+    private router: Router
   ) {}
+
+  get wakeUp() {
+    return this.wakeUpSubject.asObservable();
+  }
 
   init() {
     this.alarmService.nextAlarm.subscribe(nextAlarm => {
@@ -34,6 +43,8 @@ export class WakeUpService {
 
   private alarm(alarm: Alarm) {
     console.log('WakeUpService', 'ALARM', alarm, Date());
+    this.router.navigate(['/wakeup']);
+    this.wakeUpSubject.next(alarm);
     if (alarm.playlist) {
       this.mopidyService.volume = alarm.volume;
       this.mopidyService.playPlayList(alarm.playlist.uri);

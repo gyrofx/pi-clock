@@ -10,7 +10,15 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ElectronService {
-  ipc: IpcRenderer;
+  private ipc: IpcRenderer;
+
+  private devConfig: ElectronConfig = {
+    mopidy: {
+      host: '192.168.110.140',
+      port: 6680,
+    },
+  };
+
   private configSubject = new BehaviorSubject<ElectronConfig>(null);
 
   constructor(private windowRef: WindowRefService) {
@@ -37,6 +45,7 @@ export class ElectronService {
       }
     } else {
       console.warn('App not running inside Electron!');
+      this.configSubject.next(this.devConfig);
     }
   }
 
