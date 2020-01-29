@@ -4,6 +4,7 @@ import { WakeUpService } from './wake-up.service';
 import { MopidyService } from 'src/app/mopidy/services/mopidy.service';
 import { SleepService } from 'src/app/sleep/services/sleep.service';
 import { AlarmService } from 'src/app/alarm/services';
+import { Router } from '@angular/router';
 
 describe('WakeUpService', () => {
   let wakeUpService: WakeUpService;
@@ -15,6 +16,7 @@ describe('WakeUpService', () => {
     const spySleepService = jasmine.createSpyObj('SleepService', ['getVolume']);
     const spyAlarmService = jasmine.createSpyObj('AlarmService', ['getVolume']);
     const spyMopidyService = jasmine.createSpyObj('MopidyService', ['getVolume']);
+    const spyRouter = jasmine.createSpyObj('Router', ['getVolume']);
 
     TestBed.configureTestingModule({
       providers: [
@@ -22,6 +24,7 @@ describe('WakeUpService', () => {
         { provide: SleepService, useValue: spySleepService },
         { provide: AlarmService, useValue: spyAlarmService },
         { provide: MopidyService, useValue: spyMopidyService },
+        { provide: Router, useValue: spyRouter },
       ],
     });
 

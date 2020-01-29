@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
-import { Alarm } from '../models';
+import { Alarm, NextAlarm } from '../models';
 import { AlarmService } from './alarm.service';
 import { AlarmStorageService } from './alarm-storage.service';
-import { NextAlarm } from 'pi-clock-linux-armv7l/resources/app/src/app/alarm/models';
 
 describe('AlarmService', () => {
   let alarmService: AlarmService;
